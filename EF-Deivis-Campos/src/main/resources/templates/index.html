@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar vuelos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .company-name {
+            color: red; 
+        }
+
+        .company-name-blue {
+            color: blue; 
+        }
+
+        .company-name-red {
+            color: red; 
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+
+<!-- Mensaje de confirmación -->
+    <div th:if="${mensaje}" class="alert alert-success" role="alert">
+        <p th:text="${mensaje}"></p>
+    </div>
+
+
+    <form th:action="@{/agregar-boleto}" th:object="${boleto}" method="post">
+        <table class="table table-bordered border-primary">
+            <tr>
+                <td colspan="2" align="center" class="fs-2">
+                    <span class="company-name">Viva</span>
+                    <span class="company-name-blue">air.</span>
+                    <span class="company-name-red">com</span>
+                </td>
+                <td colspan="2" align="center" class="bg-light p-3 fs-4">VENTA DE BOLETOS</td>
+            </tr>
+
+            <tr>
+                <td>Ciudad Origen</td>
+                <td>
+                    <select th:field="*{ciudadOrigen}" class="form-select">
+                        <option th:each="ciudad : ${ciudades}" th:value="${ciudad.codigoPostal}" th:text="${ciudad.nombre}"></option>
+                    </select>
+                </td>
+                <td>Ciudad Destino</td>
+                <td>
+                    <select th:field="*{ciudadDestino}" class="form-select">
+                        <option th:each="ciudad : ${ciudades}" th:value="${ciudad.codigoPostal}" th:text="${ciudad.nombre}"></option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Fecha Salida</td>
+                <td><input th:field="*{fechaSalida}" type="text" class="form-control"></td>
+                <td>Fecha Retorno</td>
+                <td><input th:field="*{fechaRetorno}" type="text" class="form-control"></td>
+            </tr>
+            <tr>
+                <td>Nombre Comprador</td>
+                <td><input th:field="*{nombreComprador}" type="text" class="form-control"></td>
+                <td>Cantidad</td>
+                <td><input th:field="*{cantidad}" type="text" class="form-control"></td>
+            </tr>
+            <tr>
+                <td colspan="4">&nbsp;</td>
+            </tr>
+            <tr class="bg-light">
+                <td align="center"><button type="submit" role="button" class="btn btn-primary btn-lg">Agregar</button></td>
+                <td colspan="2"></td>
+                <td align="center"><a type="button" role="button" class="btn btn-primary btn-lg" th:href="@{/limpiar}">Limpiar</a></td>
+            </tr>
+        </table>
+    </form>
+
+    <table class="table table-bordered border-primary mt-5">
+        <tr>
+            <td colspan="7" align="center" class="fs-4">Boletos Agregados</td>
+        </tr>
+        <tr class="table-dark">
+            <td>Ciudad Origen</td>
+            <td>Ciudad Destino</td>
+            <td>Fecha Salida</td>
+            <td>Fecha Retorno</td>
+            <td>Comprador</td>
+            <td>Cantidad</td>
+            <td>Sub-Total</td>
+        </tr>
+        <tr th:each="boletoAgregado : ${boletosAgregados}">
+            <td th:text="${boletoAgregado.ciudadOrigen}"></td>
+            <td th:text="${boletoAgregado.ciudadDestino}"></td>
+            <td th:text="${boletoAgregado.fechaSalida}"></td>
+            <td th:text="${boletoAgregado.fechaRetorno}"></td>
+            <td th:text="${boletoAgregado.nombreComprador}"></td>
+            <td th:text="${boletoAgregado.cantidad}"></td>
+            <td th:text="${boletoAgregado.subTotal}"></td>
+        </tr>
+    </table>
+    
+    <div class="row justify-content-center mt-3">
+        <div class="col-auto">
+            <a type="button" role="button" class="btn btn-danger btn-lg" th:href="@{/index}">Comprar</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
